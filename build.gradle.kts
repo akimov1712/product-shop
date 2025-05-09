@@ -13,6 +13,7 @@ dependencies {
     implementation(libs.exposed.core)
     implementation(libs.exposed.jdbc)
     implementation(libs.mysql.connector)
+    implementation(libs.env)
     testImplementation(kotlin("test"))
 }
 
