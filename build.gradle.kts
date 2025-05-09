@@ -12,6 +12,7 @@ repositories {
 dependencies {
     implementation(libs.exposed.core)
     implementation(libs.exposed.jdbc)
+    implementation(libs.exposed.javatime)
     implementation(libs.mysql.connector)
     implementation(libs.env)
     testImplementation(kotlin("test"))

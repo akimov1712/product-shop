@@ -1,4 +1,3 @@
-import org.jetbrains.exposed.sql.Database
 import plugins.DatabasePlugin
 
 fun main() {
@@ -6,5 +5,5 @@ fun main() {
 }
 
 private fun configurePlugins(){
-    DatabasePlugin.connectDatabase()
+    DatabasePlugin.init()
 }
