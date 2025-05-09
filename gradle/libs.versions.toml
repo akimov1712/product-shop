@@ -1,0 +1,8 @@
+[versions]
+exposed = "0.61.0"
+mysql = "8.0.33"
+
+[libraries]
+exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
+exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed" }
+mysql-connector = { module = "mysql:mysql-connector-java", version.ref = "mysql" }
