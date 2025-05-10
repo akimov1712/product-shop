@@ -1,5 +1,7 @@
 package controller
 
+import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.transactions.transaction
 import tables.Products
 import tables.Products.createdAt
 import utils.errorHandler
@@ -9,6 +11,10 @@ class ProductController {
 
     fun selectProduct(id: Int) = errorHandler {
         Products.select(id).also { println("Успешно получен рецепт с id $id: $it") }
+    }
+
+    fun getSizeProducts() = errorHandler {
+        transaction { Products.selectAll().toList().size }
     }
 
     fun selectProducts(offset: Int, limit: Int = 20) = errorHandler {
