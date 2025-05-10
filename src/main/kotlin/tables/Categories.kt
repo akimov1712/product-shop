@@ -11,8 +11,8 @@ object Categories: IntIdTable("category") {
     val name = varchar("name", 255)
 
     fun add(name: String) = transaction {
-        Categories.insert { it[this.name] = name }
-    }
+        Categories.insertAndGetId { it[this.name] = name }
+    }.value
 
     fun update(id: Int, name: String) = transaction {
         Categories.upsert{
@@ -21,9 +21,17 @@ object Categories: IntIdTable("category") {
         }
     }
 
-    fun delete(id: Int) = transaction { Cart.deleteWhere { Cart.productId eq id } }
+    fun delete(id: Int) = transaction {
+        Cart.deleteWhere { productId eq id }
+    }
 
-    fun select(id: Int) = transaction { Categories.selectAll().where(Categories.id eq id).singleOrNull()?.toCategory() }
+    fun selectWithCategory(categoryId: Int, offset: Int, limit: Int = 20) = transaction {
+        Categories.selectAll().where(Categories.id eq categoryId).offset(offset.toLong()).limit(limit)
+    }.map { it.toCategory() }
+
+    fun select(id: Int) = transaction {
+        Categories.selectAll().where(Categories.id eq id).singleOrNull()?.toCategory()
+    }
 
     fun select(offset: Int, limit: Int) = transaction {
         Categories.selectAll().offset(offset.toLong()).limit(limit)

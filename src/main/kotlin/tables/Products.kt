@@ -6,6 +6,11 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.javatime.time
 import org.jetbrains.exposed.sql.transactions.transaction
+import tables.Products.categoryId
+import tables.Products.createdAt
+import tables.Products.image
+import tables.Products.price
+import tables.Products.updatedAt
 import java.time.LocalTime
 
 object Products: IntIdTable("products") {
@@ -17,30 +22,31 @@ object Products: IntIdTable("products") {
     val createdAt = time("created_at")
     val updatedAt = time("updated_at")
 
-    fun add(name: String, categoryId: Int, image: String, price: Int) = transaction {
-        Products.insert {
+    fun add(name: String, categoryId: Int?, image: String, price: Int) = transaction {
+        Products.insertAndGetId {
             it[Products.name] = name
             it[Products.categoryId] = categoryId
             it[Products.image] = image
             it[Products.price] = price
             it[createdAt] = LocalTime.now()
             it[updatedAt] = LocalTime.now()
-        }
+        }.value
     }
 
-    fun update(id: Int, name: String, categoryId: Int, image: String, price: Int, createdAt: LocalTime) = transaction {
+    fun update(id: Int, name: String, categoryId: Int?, image: String, price: Int, ) = transaction {
+        val oldProducts = select(id) ?: return@transaction null
         Products.upsert {
             it[Products.id] = id
             it[Products.name] = name
             it[Products.categoryId] = categoryId
             it[Products.image] = image
             it[Products.price] = price
-            it[Products.createdAt] = createdAt
+            it[Products.createdAt] = oldProducts.createdAt
             it[updatedAt] = LocalTime.now()
         }
     }
 
-    fun delete(id: Int) = transaction { Cart.deleteWhere { Cart.id eq id } }
+    fun delete(id: Int) = transaction { Products.deleteWhere { Products.id eq id } }
 
     fun select(id: Int) = transaction { Products.selectAll().where { Products.id eq id }.singleOrNull() }?.toProductEntity()
 

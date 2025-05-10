@@ -25,6 +25,10 @@ object Cart: IntIdTable("cart") {
         }
     }
 
+    fun deleteWithUserId(userId: String) = transaction {
+        Cart.deleteWhere { Cart.userId eq userId }
+    }
+
     fun delete(id: Int) = transaction { Cart.deleteWhere { Cart.productId eq id } }
 
     fun select(userId: String) = transaction { Cart.selectAll().where(Cart.userId eq userId).toList() }.toProductList()
