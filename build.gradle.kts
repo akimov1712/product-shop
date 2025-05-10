@@ -7,6 +7,7 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
+    maven (url = "https://jitpack.io")
 }
 
 dependencies {
@@ -15,6 +16,7 @@ dependencies {
     implementation(libs.exposed.javatime)
     implementation(libs.mysql.connector)
     implementation(libs.env)
+    implementation(libs.telegram.bot)
     testImplementation(kotlin("test"))
 }
 

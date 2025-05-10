@@ -2,10 +2,12 @@
 exposed = "0.61.0"
 mysql = "8.0.33"
 env = "6.5.1"
+telegram = "6.3.0"
 
 [libraries]
 exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
 exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed" }
 exposed-javatime = { module = "org.jetbrains.exposed:exposed-java-time", version.ref = "exposed" }
 mysql-connector = { module = "mysql:mysql-connector-java", version.ref = "mysql" }
+telegram-bot = { module = "io.github.kotlin-telegram-bot.kotlin-telegram-bot:telegram", version.ref = "telegram" }
 env = { module = "io.github.cdimascio:dotenv-kotlin", version.ref = "env" }
